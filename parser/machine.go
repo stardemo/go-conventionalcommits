@@ -3,7 +3,6 @@ package parser
 import (
 	"bytes"
 	"fmt"
-
 	"github.com/leodido/go-conventionalcommits"
 	"github.com/sirupsen/logrus"
 )
@@ -102,11 +101,25 @@ func (m *machine) emitErrorWithoutCharacter(messageTemplate string) error {
 }
 
 func (m *machine) emitErrorOnCurrentCharacter(messageTemplate string) error {
-	return m.emitError(messageTemplate, string(m.data[m.p]), m.p)
+	char := ""
+	for k, v := range m.data[m.p:] {
+		if k == 0 {
+			char = fmt.Sprintf("%c", v)
+			break
+		}
+	}
+	return m.emitError(messageTemplate, char, m.p)
 }
 
 func (m *machine) emitErrorOnPreviousCharacter(messageTemplate string) error {
-	return m.emitError(messageTemplate, string(m.data[m.p-1]), m.p)
+	char := ""
+	for k, v := range m.data[m.p-1:] {
+		if k == 0 {
+			char = fmt.Sprintf("%c", v)
+			break
+		}
+	}
+	return m.emitError(messageTemplate, char, m.p)
 }
 
 // NewMachine creates a new FSM able to parse Conventional Commits.
