@@ -102,7 +102,7 @@ func (m *machine) emitErrorWithoutCharacter(messageTemplate string) error {
 
 func (m *machine) emitErrorOnCurrentCharacter(messageTemplate string) error {
 	char := ""
-	for k, v := range m.data[m.p:] {
+	for k, v := range string(m.data[m.p:]) {
 		if k == 0 {
 			char = fmt.Sprintf("%c", v)
 			break
@@ -113,7 +113,7 @@ func (m *machine) emitErrorOnCurrentCharacter(messageTemplate string) error {
 
 func (m *machine) emitErrorOnPreviousCharacter(messageTemplate string) error {
 	char := ""
-	for k, v := range m.data[m.p-1:] {
+	for k, v := range string(m.data[m.p-1:]) {
 		if k == 0 {
 			char = fmt.Sprintf("%c", v)
 			break
